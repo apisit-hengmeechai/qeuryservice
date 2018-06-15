@@ -15,7 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls import url
+from queryapi import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    url(r'^query_api$', views.query_api),
 ]
