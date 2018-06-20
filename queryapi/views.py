@@ -5,31 +5,14 @@ from functools import reduce
 import json
 import requests
 import pprint
+from flatten_json import unflatten
 #=====================================================================
-# This is the function to split each rows by underscore to make group
+# This is the function to split each rows by double-underscore to make group
 #=====================================================================
-
-def grouping(prev, current):
-    mainkey = current[0].split('__')[0]
-    supportkey = current[0].split('__')[1]
-    if mainkey not in prev.keys():
-        prev[mainkey] = [{}]
-    prev[mainkey][0][supportkey] = current[1]
-    return prev
-
-def addobject(x, y):
-    (key, value) = y
-    x[key] = value
-    return x
-
-def items_to_dict(items):
-    return reduce(addobject, items, {})
 
 def group_underscore_key(row):
-    data_with_underscore = filter(lambda item: "__" in item[0], row.items())
-    data_without_underscore = items_to_dict(filter(lambda item: "__" not in item[0], row.items()))
-    data_group = reduce(grouping, data_with_underscore, {})
-    return {**data_without_underscore, **data_group} # Join two dict
+    pprint.pprint(row)
+    return unflatten(row, '__')
 
 #=====================================================================
 # This is the function to group multiples rows to only one
